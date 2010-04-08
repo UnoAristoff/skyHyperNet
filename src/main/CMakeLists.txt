@@ -1,0 +1,17 @@
+PROJECT (AmberHyperNet)
+
+SET(EXECUTABLE_OUTPUT_PATH "../../bin" )
+SET(LIBRARY_OUTPUT_PATH "../../bin" )
+
+AUX_SOURCE_DIRECTORY (./ MAIN_DIR )
+AUX_SOURCE_DIRECTORY (../ahnMicrocore CORE_DIR )
+AUX_SOURCE_DIRECTORY (../ahnMicrocore/utils UTILS_DIR )
+
+INCLUDE_DIRECTORIES( ../../include )
+INCLUDE_DIRECTORIES( ../ahnCommon )
+INCLUDE_DIRECTORIES( ../ahnMicrocore )
+INCLUDE_DIRECTORIES( ../ahnMicrocore/utils )
+
+ADD_EXECUTABLE (AmberHyperNet ${CORE_DIR} ${UTILS_DIR} ${MAIN_DIR} )
+
+TARGET_LINK_LIBRARIES(AmberHyperNet -lSDL_net -ldl)

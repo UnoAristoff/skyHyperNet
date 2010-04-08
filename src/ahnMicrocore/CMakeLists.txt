@@ -1,0 +1,14 @@
+PROJECT (AmberHyperNet)
+
+SET(EXECUTABLE_OUTPUT_PATH "../../bin" )
+SET(LIBRARY_OUTPUT_PATH "../../bin/services" )
+
+AUX_SOURCE_DIRECTORY ( ./ MAIN_DIR )
+AUX_SOURCE_DIRECTORY ( ./utils  UTILS_DIR )
+
+INCLUDE_DIRECTORIES( ../../include )
+INCLUDE_DIRECTORIES( ../ahnCommon )
+INCLUDE_DIRECTORIES( ./utils )
+
+
+ADD_LIBRARY (_ahnMicrocore SHARED ${MAIN_DIR} ${UTILS_DIR} )
