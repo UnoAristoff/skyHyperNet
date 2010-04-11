@@ -1,7 +1,7 @@
 PROJECT (AmberHyperNet)
 
 SET(EXECUTABLE_OUTPUT_PATH "../../bin" )
-SET(LIBRARY_OUTPUT_PATH "../../bin/services" )
+SET(LIBRARY_OUTPUT_PATH "../../bin" )
 
 AUX_SOURCE_DIRECTORY ( ./ MAIN_DIR )
 AUX_SOURCE_DIRECTORY ( ./utils  UTILS_DIR )

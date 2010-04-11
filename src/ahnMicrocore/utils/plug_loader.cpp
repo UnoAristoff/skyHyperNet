@@ -70,7 +70,7 @@ void scan_mod( const char*  dir_name, bool Recursive=false ){
      scan_mod( std::string(fdata.dir_name+fdata.name).c_str(), true );
      }
     else {
-	printf("find file: %s\n", fdata.name.c_str());
+//	printf("find file: %s\n", fdata.name.c_str());
 	load_mod( std::string(DirName+fdata.name).c_str() );
 //     std::string FileExt=GetFileExt(DirName+fdata.name);
 //     if (FileExt==ASN_MODULE_EXTENSION_NAME) LoadASNModule(DirName+fdata.name);
