@@ -12,8 +12,8 @@ public:
     virtual int Start(bool loop)=0;
     virtual int Release()=0;
 
-    virtual void regService( IService* newService )=0;
-    virtual IService* getService( IServType servType )=0;
+//    virtual void regService( IService* newService )=0;
+//    virtual IService* getService( IServType servType )=0;
 
 };
 

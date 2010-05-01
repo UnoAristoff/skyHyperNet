@@ -29,7 +29,7 @@ class CMicrocore: public IMicrocore {
 
     protected:
 
-    ~CMicrocore();
+    virtual ~CMicrocore();
     int GetMsg(TCPsocket socket, char *buffer, int buf_size);
     int PutMsg(TCPsocket socket, char *buffer, int buf_size);
 

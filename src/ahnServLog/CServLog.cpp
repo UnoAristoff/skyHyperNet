@@ -1,5 +1,7 @@
 #include "CServLog.h"
-#include <iostream.h>
+#include <iostream>
+
+using namespace std;
 
 CServLog::CServLog(){
 

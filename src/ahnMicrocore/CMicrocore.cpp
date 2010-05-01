@@ -1,11 +1,12 @@
 #include "CMicrocore.h"
-#include <iostream.h>
+#include <iostream>
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_net.h"
 #include "SDL/SDL_thread.h"
 
 static int alive = 0;
+using namespace std;
 
 int ThreadFunc(void* data){
 
@@ -13,11 +14,11 @@ int ThreadFunc(void* data){
 
     while(true){
 	if (alive==0) return 0;
-	if (alive==1) 
+	if (alive==1)
 	    if ( !ptrCore->Process() ) { cout << "proc end" << endl; return 0; }
 	SDL_Delay(1*1000);
 	}
-	
+
 };
 
 CMicrocore::CMicrocore(){
@@ -42,9 +43,9 @@ CMicrocore::~CMicrocore(){
     SDL_Quit();
 
     cout << "CMicrocore deleted..." << endl;
-    
+
 }
-    
+
 int CMicrocore::Init(Uint16 port){
 
     if ( SDL_Init(0) < 0 ) {
@@ -54,20 +55,21 @@ int CMicrocore::Init(Uint16 port){
 	}
 
     SDLNet_Init();
-    
+
     alive = 2; // "pause"
-    
+
     Listener.ip.port = port;
-    
+    return 0;
 }
 
 int CMicrocore::Start(bool loop=false){
+cout << "CMicrocore::Start" << endl;
 
     Uint16 port = Listener.ip.port;
-    
+
     SDLNet_ResolveHost(&Listener.ip, NULL, port);
     Listener.socket=SDLNet_TCP_Open(&Listener.ip);
-    
+
     if(!Listener.socket)
     {
     	printf("fuu: %s\n",SDLNet_GetError());
@@ -77,11 +79,11 @@ int CMicrocore::Start(bool loop=false){
 
     set=SDLNet_AllocSocketSet(1);
     SDLNet_TCP_AddSocket(set,Listener.socket);
-    
+
     coreThread = SDL_CreateThread(ThreadFunc, this);
     if ( coreThread == NULL ) {
 	fprintf(stderr, "Couldn't create thread: %s\n", SDL_GetError());
-	status = 0;	
+	status = 0;
 	return 0;
 	}
 
@@ -91,13 +93,13 @@ int CMicrocore::Start(bool loop=false){
     status = 2; // создано и инициализировано
 
     if (loop) {
-        cout << "CMicrocore loop started..." << endl;    
+        cout << "CMicrocore loop started..." << endl;
 	while ( status !=0 ) {  }
         cout << "CMicrocore loop ended..." << endl;
 	}
 
     return 0;
-    
+
 };
 
 int CMicrocore::Release(){
@@ -133,9 +135,9 @@ char message[1024];
 TCPsocket new_socket;
 int numready;
 IPaddress *remoteip;
-    
+
     numready = SDLNet_CheckSockets(set, 0/*(Uint32)-1*/);
-    
+
     if(!numready) return status;
 
     if (SDLNet_SocketReady(Listener.socket)){ // listener ВРН-РН СКНБХК
@@ -169,7 +171,7 @@ IPaddress *remoteip;
 
     cout << "CMicrocore process..." << endl;
     return status;
-    
+
 }
 
 IService* CMicrocore::getService( IServType servType ){
@@ -177,7 +179,7 @@ IService* CMicrocore::getService( IServType servType ){
 	return ServiceList[servType];
 
 	return NULL;
-    
+
 };
 
 void CMicrocore::regService( IService* newService ){
@@ -190,7 +192,7 @@ void CMicrocore::regService( IService* newService ){
 	}
 	ServiceList[servType] = newService;
 	cout << "[" << servName << "] registered " << endl;
-	
+
     } catch (...) {
 
     }

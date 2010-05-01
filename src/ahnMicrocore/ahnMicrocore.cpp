@@ -3,10 +3,12 @@
 #endif
 
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
 
 #include "CMicrocore.h"
 #include "plug_loader.h"
+
+using namespace std;
 
 CMicrocore* _myCore=NULL;
 

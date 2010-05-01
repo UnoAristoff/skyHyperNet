@@ -12,7 +12,7 @@ class CServLog: public IService {
 	void Release(){ delete this; }
 
 	CServLog();
-	~CServLog();
+	virtual ~CServLog();
 
 
 };

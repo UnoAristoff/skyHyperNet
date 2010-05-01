@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
 
 //#include "CMicrocore.h"
 #include <string>
@@ -13,6 +13,8 @@
 
 #include "os_loadmodule.h"
 #include "os_deps.h"
+
+using namespace std;
 
 typedef void* (*GETSERVICE)( void );
 
@@ -46,7 +48,7 @@ void load_mod( const char* mod_name ){
 
 }
 
-void scan_mod( const char*  dir_name, bool Recursive=false ){
+void scan_mod( const char* dir_name, bool Recursive ){
     os_finddata_t fdata;
     os_dir_t hFile;
 
