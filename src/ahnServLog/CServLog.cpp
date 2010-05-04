@@ -1,7 +1,5 @@
 #include "CServLog.h"
-#include <iostream>
-
-using namespace std;
+#include <iostream.h>
 
 CServLog::CServLog(){
 
@@ -14,3 +12,8 @@ CServLog::~CServLog(){
     cout << "ServLog deleted.." << endl;
 
 };
+
+//bool CServLog::CallFunc( void* ptr, long size ){
+//
+//
+//};

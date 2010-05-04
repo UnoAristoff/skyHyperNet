@@ -3,20 +3,18 @@
 #endif
 
 #include <stdio.h>
-#include <iostream>
+#include <iostream.h>
 
 #include "CMicrocore.h"
 #include "plug_loader.h"
-
-using namespace std;
 
 CMicrocore* _myCore=NULL;
 
 void get_mod(void* mod_ptr){
 
-    cout << "get mod " << endl;
+//    cout << "get mod " << endl;
     _myCore->regService( (IService*) mod_ptr );
-    cout << "get mod ok" << endl;
+//    cout << "get mod ok" << endl;
 }
 
 extern "C"
@@ -40,7 +38,7 @@ extern "C"
 
     scan_mod( "services" ); // load services
 
-    cout << "scan end" << endl;
+//    cout << "scan end" << endl;
     *ppCore = _myCore;
 
 }

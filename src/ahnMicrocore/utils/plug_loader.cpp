@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 #include <stdio.h>
-#include <iostream>
+#include <iostream.h>
 
 //#include "CMicrocore.h"
 #include <string>
@@ -14,9 +14,8 @@
 #include "os_loadmodule.h"
 #include "os_deps.h"
 
-using namespace std;
-
-typedef void* (*GETSERVICE)( void );
+//typedef void (*GETCORELIB)( IMicrocore** );
+typedef void* (*GETSERVICE)( void** );
 
 void load_mod( const char* mod_name ){
 
@@ -34,7 +33,14 @@ void load_mod( const char* mod_name ){
     return;
     }
 
-    void* myServ = FPlugLoad();
+//    GETCORELIB func_p=(GETCORELIB)dlsym(library_handler, "GetCore");
+//#else
+//    GETCORELIB func_p=(GETCORELIB)GetProcAddress( (HINSTANCE)handl, "GetCore" );
+//#endif
+//	func_p( & _myCore );
+
+    void* myServ;
+    FPlugLoad( &myServ );
 
     // если в myGenerator не экземпл€р класса-генератора а NULL то выгружаем модуль и выходим
     if (!myServ) {
@@ -43,12 +49,12 @@ void load_mod( const char* mod_name ){
 	}
 
 //myGenerator->Initialize(Engine); //инициализируем генератор
-//    _myCore->regService( myServ );
+//_myCore->regService( myServ );
 	get_mod( myServ );
 
 }
 
-void scan_mod( const char* dir_name, bool Recursive ){
+void scan_mod( const char*  dir_name, bool Recursive=false ){
     os_finddata_t fdata;
     os_dir_t hFile;
 

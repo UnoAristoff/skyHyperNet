@@ -6,9 +6,9 @@
 
 extern "C"
 #ifdef _WIN32
-__declspec(dllexport)
+    __declspec(dllexport)
 #endif
-IService *GetService( )
+void GetService( IService** ppService )
 {
-     return new CServLog();
+    *ppService = new CServLog();
 };

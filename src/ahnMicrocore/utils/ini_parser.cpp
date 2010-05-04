@@ -1,14 +1,22 @@
+//#include <stdio.h>
+//#include <iostream.h>
+//#include "CMicrocore.h"
+//#include <string>
+//#include <dirent.h>
+//#include <sys/stat.h>
+//#include "os_deps.h"
+//#include "os_loadmodule.h"
+
 #include "ini_parser.h"
 
 #include <string>
 #include <map>
 
 #include <stdio.h>
-#include <iostream>
+#include <iostream.h>
 #include <fstream>
 
 #include "asn_utils.h"
-
 
 std::map< std::string, std::string > ParseList;
 

@@ -1,11 +1,9 @@
 #include <stdio.h>
-#include <iostream>
+#include <iostream.h>
 
 //#include "IMicrocore.h"
 
 #include "core_loader.h"
-
-using namespace std;
 
 IMicrocore* myCore;
 
@@ -14,7 +12,7 @@ extern IMicrocore* GetCore();
 int main(int argc, char *argv[])
 {
 
-    printf("Hello world!\n");
+//    printf("Hello world!\n");
 
     myCore = GetCore();
 
@@ -25,21 +23,18 @@ int main(int argc, char *argv[])
 
     }
 
-//return 0;
-
-cout << "yesss" << endl;
-//    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();
-
-//myCore->Release();
+// cout << "yesss" << endl;
+// myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    
 
     myCore->Start(false);
 
     cout << "press <Enter> to quit...";
     getchar();
     cout << "[OK]" << endl;
+
 //    myCore->Start(true); // loop
 
-    FreeCore();
+    myCore->Release();
     return 0;
 
 }

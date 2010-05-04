@@ -2,7 +2,7 @@
 #define _C_MICROCORE_H
 
 #include "IMicrocore.h"
-#include <map>
+#include <vector>
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_net.h"
@@ -22,14 +22,20 @@ class CMicrocore: public IMicrocore {
     int Start(bool loop);
     int Release();
 
-    IService* getService( IServType servType );
-    void regService( IService* newService );
+    UID GetUID(const char* ServName);
+    bool SendCommand( ahn_command_head& head, void* data, int size );
+
+//    IService* getService( IServType servType );
+    void regService( IService* myService );
+    void unrService( UID servID );
 
     int Process(); // return status
 
     protected:
 
-    virtual ~CMicrocore();
+    bool CheckID( UID testID ); // true - valid, false - not valid
+
+    ~CMicrocore();
     int GetMsg(TCPsocket socket, char *buffer, int buf_size);
     int PutMsg(TCPsocket socket, char *buffer, int buf_size);
 
@@ -39,7 +45,7 @@ class CMicrocore: public IMicrocore {
     CNetworkListener Listener;
     SDLNet_SocketSet set;
 
-    std::map<IServType, IService*> ServiceList;
+    std::vector<IService*> ServiceList;
 
 };
 

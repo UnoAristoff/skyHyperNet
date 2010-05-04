@@ -4,6 +4,8 @@
 #include "ahn_types.h"
 #include "IService.h"
 
+#include "ahn_command.h"
+
 class IMicrocore {
 
 public:
@@ -12,8 +14,8 @@ public:
     virtual int Start(bool loop)=0;
     virtual int Release()=0;
 
-//    virtual void regService( IService* newService )=0;
-//    virtual IService* getService( IServType servType )=0;
+    virtual UID GetUID(const char* ServName)=0;
+    virtual bool SendCommand( ahn_command_head& head, void* data, int size )=0;
 
 };
 
