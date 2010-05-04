@@ -30,6 +30,7 @@
 			<Add library="extlib\libSDL.dll.a" />
 			<Add library="extlib\SDL_net.lib" />
 		</Linker>
+		<Unit filename="include\ahn_command.h" />
 		<Unit filename="src\ahnMicrocore\CMicrocore.cpp" />
 		<Unit filename="src\ahnMicrocore\CMicrocore.h" />
 		<Unit filename="src\ahnMicrocore\ahnMicrocore.cpp" />

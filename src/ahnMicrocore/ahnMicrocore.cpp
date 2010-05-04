@@ -3,7 +3,8 @@
 #endif
 
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #include "CMicrocore.h"
 #include "plug_loader.h"

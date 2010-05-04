@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <iostream.h>
-
+#include <iostream>
+using namespace std;
 //#include "IMicrocore.h"
 
 #include "core_loader.h"
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     }
 
 // cout << "yesss" << endl;
-// myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    
+// myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();
 
     myCore->Start(false);
 
@@ -33,8 +33,7 @@ int main(int argc, char *argv[])
     cout << "[OK]" << endl;
 
 //    myCore->Start(true); // loop
-
-    myCore->Release();
+    FreeCore();
     return 0;
 
 }

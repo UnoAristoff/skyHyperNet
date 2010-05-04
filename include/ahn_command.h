@@ -1,8 +1,8 @@
 #ifndef _command_h
 #define _command_h
 
-typedef int UID;
-typedef int NOP;   // Number Of Operation
+typedef unsigned int UID;
+typedef unsigned int NOP;   // Number Of Operation
 
 struct ahn_command_head {
     UID from;

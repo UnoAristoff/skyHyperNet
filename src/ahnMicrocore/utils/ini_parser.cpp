@@ -13,7 +13,8 @@
 #include <map>
 
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <fstream>
 
 #include "asn_utils.h"

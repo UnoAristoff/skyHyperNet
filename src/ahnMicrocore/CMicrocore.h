@@ -35,7 +35,7 @@ class CMicrocore: public IMicrocore {
 
     bool CheckID( UID testID ); // true - valid, false - not valid
 
-    ~CMicrocore();
+    virtual ~CMicrocore();
     int GetMsg(TCPsocket socket, char *buffer, int buf_size);
     int PutMsg(TCPsocket socket, char *buffer, int buf_size);
 
@@ -50,3 +50,4 @@ class CMicrocore: public IMicrocore {
 };
 
 #endif
+

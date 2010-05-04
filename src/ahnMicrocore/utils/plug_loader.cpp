@@ -4,7 +4,9 @@
 #include <stdio.h>
 
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
+
+using namespace std;
 
 //#include "CMicrocore.h"
 #include <string>
@@ -54,7 +56,7 @@ void load_mod( const char* mod_name ){
 
 }
 
-void scan_mod( const char*  dir_name, bool Recursive=false ){
+void scan_mod( const char*  dir_name, bool Recursive ){
     os_finddata_t fdata;
     os_dir_t hFile;
 

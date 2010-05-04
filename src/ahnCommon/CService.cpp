@@ -14,8 +14,9 @@ void CService::RegFunc( void* func_ptr ){
 
 bool CService::CallFunc( ahn_command_head& head, void* data, int size){
 
-    if ( myID != head.to ) return false; 
+    if ( myID != head.to ) return false;
     if ( func_list.size() < head.operation ) return false;
 
+    return true;
 
 };
