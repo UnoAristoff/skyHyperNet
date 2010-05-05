@@ -10,7 +10,7 @@ class CServLog: public CService {
 //    bool CallFunc( void* ptr, long size );
 
         const char *getName(){ return "ServLog"; }
-        IServType getType(){ return ServLog; }
+        tServType getType(){ return tServLog; }
         void Release(){ delete this; }
 
         CServLog();

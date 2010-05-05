@@ -12,7 +12,7 @@ public:
 //    virtual bool CallFunc( void* ptr, long size )=0;
 
     virtual const char *getName()=0;
-    virtual IServType getType()=0;
+    virtual tServType getType()=0;
     virtual void Release()=0;
 
 };

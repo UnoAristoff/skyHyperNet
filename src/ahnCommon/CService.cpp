@@ -1,10 +1,24 @@
 #include "CService.h"
 
+
+//typedef bool (CService::FUNC_PTR*)( ahn_command_head& head, void* data, int size );
+
 CService::CService(){
+
     myID = 0;
+    myCore = NULL;
+
+    void* ptrFunc = &CService::TestFunc;
+
+    RegFunc( ptrFunc );
+
 };
 
 CService::~CService(){
+
+};
+
+bool CService::TestFunc( ahn_command_head& head, void* data, int size ){
 
 };
 

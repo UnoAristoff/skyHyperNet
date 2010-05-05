@@ -2,11 +2,15 @@
 #define _C_MICROCORE_H
 
 #include "IMicrocore.h"
+#include <string>
 #include <vector>
+#include <map>
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_net.h"
 #include "SDL/SDL_thread.h"
+
+#include "CService.h"
 
 struct CNetworkListener{
     IPaddress ip;
@@ -22,7 +26,10 @@ class CMicrocore: public IMicrocore {
     int Start(bool loop);
     int Release();
 
-    UID GetUID(const char* ServName);
+    UID GetUID(tServType serv_type);
+    UID GetUID(const char* serv_name);
+
+//    UID GetUID(const char* ServName);
     bool SendCommand( ahn_command_head& head, void* data, int size );
 
 //    IService* getService( IServType servType );
@@ -45,9 +52,10 @@ class CMicrocore: public IMicrocore {
     CNetworkListener Listener;
     SDLNet_SocketSet set;
 
-    std::vector<IService*> ServiceList;
+    std::vector<CService*> ServiceList;          // for UID
+    std::map<tServType, CService*> ServiceList_t; // for types
+    std::map<std::string, CService*> ServiceList_n; // for names
 
 };
 
 #endif
-

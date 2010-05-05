@@ -45,10 +45,10 @@ CMicrocore::~CMicrocore(){
     SDL_Quit();
 
 
-    std::vector<IService*>::iterator _it;
+    std::vector<CService*>::iterator _it;
     for (_it=ServiceList.begin(); _it!= ServiceList.end();_it++ ){
 	if ( !(*_it) ) continue; // ХЦЕ ХДБМЕО
-	UID myID = ((CService*)(*_it))->getUID();
+	UID myID = (*_it)->getUID();
 	unrService( myID );
     };
 
@@ -121,20 +121,24 @@ int CMicrocore::Release(){
 // на входе - сокет, буфер, размер буфера
 // на выходе - размер принятого сообщения или -1 в случае ошибки
 int CMicrocore::GetMsg(TCPsocket socket, char *buffer, int buf_size){
-int len=SDLNet_TCP_Recv(socket,buffer,buf_size);
-printf("%d GET--> %d", buf_size, len );
-		if(!len) return (-1);
-return len;
+
+    int len=SDLNet_TCP_Recv(socket,buffer,buf_size);
+    printf("%d GET--> %d", buf_size, len );
+    if(!len) return (-1);
+    return len;
+
 };
 
 // *************** функция отправки сообщения в сокет ****************************
 // на входе - сокет, буфер, размер передаваемого сообщения
 // на выходе - размер переданного сообщения или -1 в случае ошибки
 int CMicrocore::PutMsg(TCPsocket socket, char *buffer, int buf_size){
-int len=SDLNet_TCP_Send(socket,buffer,buf_size);
-printf("%d <--PUT %d", buf_size, len );
-		if(!len) return (-1);
-return len;
+
+    int len=SDLNet_TCP_Send(socket,buffer,buf_size);
+    printf("%d <--PUT %d", buf_size, len );
+    if(!len) return (-1);
+    return len;
+
 };
 
 int CMicrocore::Process(){
@@ -191,11 +195,18 @@ IPaddress *remoteip;
 
 void CMicrocore::regService( IService* myService ){
 
-	const char* servName = myService->getName();
-//	IServType servType = myService->getType();
+	std::string servName = myService->getName();
+	tServType servType = myService->getType();
 
-	ServiceList.push_back( myService );
-	((CService*)myService)->setUID( ServiceList.size() );
+	ServiceList.push_back( (CService*)myService );
+	((CService*)myService)->setUID( ServiceList.size(), this );
+
+if ( servType < tServLast )  // if service have a manager type
+	ServiceList_t[myService->getType()] = (CService*)myService;
+
+if ( servName !="-" ) // if service have a correct name
+	ServiceList_n[servName] = (CService*)myService;
+
 	cout << "[" << servName << "] registered " << endl;
 
 };
@@ -204,13 +215,39 @@ void CMicrocore::regService( IService* myService ){
 void CMicrocore::unrService( UID servID ){
 
 	if ( !CheckID(servID) ) return;
-	ServiceList[servID-1]->Release();
+
+	CService* myService  = ServiceList[servID-1];
+	std::string servName = myService->getName();
+	tServType servType   = myService->getType();
+
+
+if ( servType < tServLast )  // if service have a manager type
+	ServiceList_t.erase( ServiceList_t.find(servType) );
+
+if ( servName !="-" )        // if service have a correct name
+	ServiceList_n.erase( ServiceList_n.find(servName) );
+
+	myService->Release();
 	ServiceList[servID-1]=NULL;
 
 };
 
-UID CMicrocore::GetUID(const char* ServName){
-return 0;
+UID CMicrocore::GetUID(tServType serv_type){
+
+    if (ServiceList_t.find(serv_type)!=ServiceList_t.end() )
+	return ServiceList_t[serv_type]->getUID();
+
+    return 0;
+
+};
+
+UID CMicrocore::GetUID(const char* serv_name){
+
+    if (ServiceList_n.find(serv_name)!=ServiceList_n.end() )
+	return ServiceList_n[serv_name]->getUID();
+
+    return 0;
+
 };
 
 bool CMicrocore::CheckID( UID testID ){
@@ -226,5 +263,9 @@ bool CMicrocore::SendCommand( ahn_command_head& head, void* data, int size ){
 
 	if ( !CheckID(head.from) ) return false;
 	if ( !CheckID(head.to) ) return false;
+
+    ServiceList[head.to]->CallFunc( head, data, size );
+
     return true;
+
 };

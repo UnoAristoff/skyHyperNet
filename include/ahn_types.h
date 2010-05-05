@@ -4,13 +4,12 @@
 typedef unsigned int   Uint32;
 typedef unsigned short Uint16;
 
-enum IServType {
-ServLog,
-ServFile,
-ServScreen,
-
-ServLast,
-ServCustom = ServLast + 1
+enum tServType {
+tServLog = 1,
+tServFile,
+tServScreen,
+tServLast,
+tServCustom
 };
 
 #endif
