@@ -2,12 +2,12 @@
 #define _command_h
 
 typedef unsigned int UID;
-typedef unsigned int NOP;   // Number Of Operation
+typedef unsigned int NUC;   // Number Of Operation
 
 struct ahn_command_head {
     UID from;
     UID to;
-    NOP operation;
+    NUC operation;
 };
 
 #endif

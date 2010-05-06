@@ -1,16 +1,19 @@
 #include "CService.h"
-
-
-//typedef bool (CService::FUNC_PTR*)( ahn_command_head& head, void* data, int size );
+#include <iostream>
+using namespace std;
 
 CService::CService(){
-
     myID = 0;
-    myCore = NULL;
+    num_func = 0;
 
-    void* ptrFunc = &CService::TestFunc;
+    CALLFUNC myF = &CService::TestFunc1;
+    RegFunc( myF );
 
-    RegFunc( ptrFunc );
+    myF = &CService::TestFunc2;
+    RegFunc( myF );
+
+    myF = &CService::TestFunc3;
+    RegFunc( myF );
 
 };
 
@@ -18,19 +21,35 @@ CService::~CService(){
 
 };
 
-bool CService::TestFunc( ahn_command_head& head, void* data, int size ){
-
+void CService::RegFunc( CALLFUNC &func_ptr ){
+//    func_list.push_back( func_ptr );
+    func_list[ num_func ] = func_ptr;
+    num_func++;
 };
 
-void CService::RegFunc( void* func_ptr ){
-    func_list.push_back( func_ptr );
+bool CService::TestFunc1( ahn_command_head& head, void* data, int size){
+cout << "TestFunc1" << endl;
+return true;
+};
+
+bool CService::TestFunc2( ahn_command_head& head, void* data, int size){
+cout << "TestFunc2" << endl;
+return true;
+};
+
+bool CService::TestFunc3( ahn_command_head& head, void* data, int size){
+cout << "TestFunc3" << endl;
+return true;
 };
 
 bool CService::CallFunc( ahn_command_head& head, void* data, int size){
 
     if ( myID != head.to ) return false;
-    if ( func_list.size() < head.operation ) return false;
+
+    if ( num_func < head.operation ) return false;
+
+    CALLFUNC myF = func_list[head.operation];
+    (this->*myF)( head, data, size );
 
     return true;
-
 };

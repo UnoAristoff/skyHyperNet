@@ -264,7 +264,10 @@ bool CMicrocore::SendCommand( ahn_command_head& head, void* data, int size ){
 	if ( !CheckID(head.from) ) return false;
 	if ( !CheckID(head.to) ) return false;
 
-    ServiceList[head.to]->CallFunc( head, data, size );
+
+    return ServiceList[head.to-1]->CallFunc( head, data, size );
+
+//cout << "CMicrocore::SendCommand" << endl;
 
     return true;
 

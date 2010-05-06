@@ -13,6 +13,8 @@ class CServLog: public CService {
         tServType getType(){ return tServLog; }
         void Release(){ delete this; }
 
+        bool ServLogFunc( ahn_command_head& head, void* data, int size );
+
         CServLog();
         ~CServLog();
 
