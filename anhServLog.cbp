@@ -24,8 +24,7 @@
 			<Add directory="src\ahnCommon" />
 			<Add directory="include" />
 		</Compiler>
-		<Unit filename="src\ahnCommon\CService.cpp" />
-		<Unit filename="src\ahnCommon\CService.h" />
+		<Unit filename="src\ahnCommon\TService.h" />
 		<Unit filename="src\ahnServLog\CServLog.cpp" />
 		<Unit filename="src\ahnServLog\CServLog.h" />
 		<Unit filename="src\ahnServLog\ahnServLog.cpp" />

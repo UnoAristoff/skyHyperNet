@@ -45,7 +45,6 @@ return true;
 bool CService::CallFunc( ahn_command_head& head, void* data, int size){
 
     if ( myID != head.to ) return false;
-
     if ( num_func < head.operation ) return false;
 
     CALLFUNC myF = func_list[head.operation];

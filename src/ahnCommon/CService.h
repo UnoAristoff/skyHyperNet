@@ -34,10 +34,7 @@ protected:
 
     void RegFunc( CALLFUNC &func_ptr );
     NUC num_func;
-    bool (CService::*func_list[10])( ahn_command_head& head, void* data, int size);
-
-//    CALLFUNC[10] func_list;
-//    std::vector< CALLFUNC > func_list;
+    CALLFUNC func_list[10];
 
 };
 
