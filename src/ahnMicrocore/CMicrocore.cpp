@@ -252,6 +252,8 @@ UID CMicrocore::GetUID(const char* serv_name){
 
 bool CMicrocore::CheckID( UID testID ){
 
+cout << "test id: " << testID << endl;
+
 	if ( testID>ServiceList.size() ) return false;
 	if ( ServiceList[testID-1]==NULL ) return false;
 
@@ -264,10 +266,11 @@ bool CMicrocore::SendCommand( ahn_command_head& head, void* data, int size ){
 	if ( !CheckID(head.from) ) return false;
 	if ( !CheckID(head.to) ) return false;
 
+cout << "CMicrocore::SendCommand" << endl;
 
     return ServiceList[head.to-1]->CallFunc( head, data, size );
 
-//cout << "CMicrocore::SendCommand" << endl;
+
 
     return true;
 

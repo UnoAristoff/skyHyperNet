@@ -27,24 +27,25 @@ int main(int argc, char *argv[])
 
     myCore->Start(false);
 
-    UID myLog = myCore->GetUID("ServLog");
+//    UID myLog = myCore->GetUID("ServLog");
+//    cout << "myLog ID : " << myLog << endl;
 
-    cout << "myLog ID : " << myLog << endl;
+    LogMsg("Hello from main prog!");
 
-    ahn_command_head my_command;
-    my_command.from = myLog;
-    my_command.to = myLog;
-    my_command.operation = 0;
-    myCore->SendCommand( my_command, NULL, 0);
+//    ahn_command_head my_command;
+//    my_command.from = myLog;
+//    my_command.to = myLog;
+//    my_command.operation = 0;
+//    myCore->SendCommand( my_command, NULL, 0);
 
-    my_command.operation = 1;
-    myCore->SendCommand( my_command, NULL, 0);
+//    my_command.operation = 1;
+//    myCore->SendCommand( my_command, NULL, 0);
 
-    my_command.operation = 2;
-    myCore->SendCommand( my_command, NULL, 0);
+//    my_command.operation = 2;
+//    myCore->SendCommand( my_command, NULL, 0);
 
-    my_command.operation = 300;
-    myCore->SendCommand( my_command, NULL, 0);
+//    my_command.operation = 300;
+//    myCore->SendCommand( my_command, NULL, 0);
 
     cout << "press <Enter> to quit...";
     getchar();

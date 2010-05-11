@@ -11,6 +11,8 @@
 #include <windows.h>
 #endif
 
+#include "f_servlog.h"
+
 static IMicrocore* _myCore=NULL;
 void *library_handler =NULL;
 
