@@ -8,6 +8,7 @@ struct ahn_command_head {
     UID from;
     UID to;
     NUC operation;
+    unsigned int size;
 };
 
 #endif

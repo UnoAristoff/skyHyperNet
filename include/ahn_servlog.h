@@ -5,11 +5,7 @@
 	FLogMsg = 0,
 	FErrMsg,
 
-	FEndF
+	FServLogEndF
     };
 
-//    LogMsg( const char* Msg );
-//    ErrMsg( const char* Msg );
-
 #endif
-

@@ -9,4 +9,5 @@ ADD_DEFINITIONS( -fPIC)
 
 SUBDIRS( src/main )
 SUBDIRS( src/ahnServLog )
+SUBDIRS( src/ahnServSnd )
 SUBDIRS( src/ahnMicrocore )

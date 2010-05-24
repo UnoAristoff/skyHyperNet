@@ -15,7 +15,7 @@ public:
     virtual int Release()=0;
 
     virtual UID GetUID(const char* ServName)=0;
-    virtual bool SendCommand( ahn_command_head& head, void* data, int size )=0;
+    virtual bool SendCommand( ahn_command_head& head, void* data )=0;
 
 };
 

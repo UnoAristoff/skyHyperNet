@@ -11,7 +11,7 @@
 #include <windows.h>
 #endif
 
-#include "f_servlog.h"
+#include "ahn_function.h"
 
 static IMicrocore* _myCore=NULL;
 void *library_handler =NULL;
@@ -32,7 +32,8 @@ if (library_handler) {
     FreeLibrary( (HINSTANCE)library_handler);
     #endif
     }
-}
+};
+
 IMicrocore* GetCore(){
 
 if (_myCore) return _myCore;
@@ -69,6 +70,6 @@ const char *ModuleName="./ahnMicrocore.dll";
     return _myCore;
 //    return GetCoreLib();
 
-}
+};
 
 #endif

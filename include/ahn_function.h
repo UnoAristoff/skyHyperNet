@@ -4,6 +4,4 @@
 #include "f_servlog.h"
 #include "f_servsnd.h"
 
-IMicrocore* pCore;
-
 #endif

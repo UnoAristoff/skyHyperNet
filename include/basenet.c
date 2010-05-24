@@ -1,6 +1,5 @@
 #inlucde "basenet.h"
 
-
 sock_id net_init(Uint16 port, char *host=NULL){
 
 }

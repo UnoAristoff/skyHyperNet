@@ -6,7 +6,7 @@ using namespace std;
 #include "SDL/SDL_net.h"
 #include "SDL/SDL_thread.h"
 
-#include "CService.h"
+IMicrocore* pCore;
 
 static int alive = 0;
 
@@ -15,18 +15,22 @@ int ThreadFunc(void* data){
     CMicrocore* ptrCore = (CMicrocore*) data;
 
     while(true){
-	if (alive==0) return 0;
+//    cout << "thread.." << endl;
+	if (alive==0) { ptrCore->Process(); return 0;}
 	if (alive==1)
 	    if ( !ptrCore->Process() ) { cout << "proc end" << endl; return 0; }
-	SDL_Delay(1*1000);
+	SDL_Delay(1*10);
 	}
 
 };
 
 CMicrocore::CMicrocore(){
+    pCore = this;
     status = 1;
     coreThread = NULL;
     cout << "CMicrocore created..." << endl;
+//    topLeaf = new TLeaf();
+//    curLeaf = topLeaf;
 }
 
 CMicrocore::~CMicrocore(){
@@ -34,7 +38,7 @@ CMicrocore::~CMicrocore(){
     if (coreThread) {
 	alive = 0;
 	SDL_WaitThread(coreThread, NULL);
-//	SDL_KillThread(coreThread); // ОЕ ОБДП ХВЙЧБФШ ОЙФШ - ПОБ ХЦЕ ЪБЛПОЮЕОБ РП alive=0;
+//	SDL_KillThread(coreThread); // ОЕ ОБДП ХВЙЧБФШ ОЙФШ - ПОБ ХЦЕ ЪБЛПОЮЕОБ РП alive=0;, ОЕФ, ОБДП :) ЙВП ЮФЕОЙЕ ЙЪ УПЛЕФПЧ
 	}
 
     cout << "CMicrocore THREAD stop..." << endl;
@@ -44,8 +48,7 @@ CMicrocore::~CMicrocore(){
     // shutdown SDL
     SDL_Quit();
 
-
-    std::vector<CService*>::iterator _it;
+    std::vector< IService* >::iterator _it;
     for (_it=ServiceList.begin(); _it!= ServiceList.end();_it++ ){
 	if ( !(*_it) ) continue; // ХЦЕ ХДБМЕО
 	UID myID = (*_it)->getUID();
@@ -58,6 +61,8 @@ CMicrocore::~CMicrocore(){
 
 int CMicrocore::Init(Uint16 port){
 
+    ext_port = port;
+
     if ( SDL_Init(0) < 0 ) {
 	fprintf(stderr, "Couldn't initialize SDL: %s\n",SDL_GetError());
 
@@ -69,11 +74,14 @@ int CMicrocore::Init(Uint16 port){
     alive = 2; // "pause"
 
     Listener.ip.port = port;
+    Sender.ip.port = port;
+
     return 1;
 }
 
 int CMicrocore::Start(bool loop=false){
 
+//    accept_s = NULL;
     Uint16 port = Listener.ip.port;
 
     SDLNet_ResolveHost(&Listener.ip, NULL, port);
@@ -81,13 +89,38 @@ int CMicrocore::Start(bool loop=false){
 
     if(!Listener.socket)
     {
-    	printf("fuu: %s\n",SDLNet_GetError());
+	printf("fuu: %s\n",SDLNet_GetError());
 	status = 0;
 	return 0;
     }
 
+    SDLNet_ResolveHost(&Sender.ip, "localhost", port);
+    Sender.socket=SDLNet_TCP_Open(&Sender.ip);
+
+    if(!Sender.socket)
+    {
+	printf("fuu: %s\n",SDLNet_GetError());
+	status = 0;
+	return 0;
+    }
+
+
     set=SDLNet_AllocSocketSet(1);
     SDLNet_TCP_AddSocket(set,Listener.socket);
+
+//char* test = new char[100];
+//PutMsg(Sender.socket, test, 100);
+//    int numready =
+//SDLNet_CheckSockets(set, (Uint32)-1);
+//    (SDLNet_SocketReady(Listener.socket)){ // listener что-то уловил
+//TCPsocket new_socket = SDLNet_TCP_Accept(Listener.socket);
+//GetMsg(new_socket, test, 100);
+//SDLNet_TCP_Close( new_socket );
+//delete []test;
+
+//if (len!=100) return 0;
+
+//    Sender.socket = Connect();
 
     coreThread = SDL_CreateThread(ThreadFunc, this);
     if ( coreThread == NULL ) {
@@ -120,10 +153,10 @@ int CMicrocore::Release(){
 // **************** функция приема сообщения из сокета **************************
 // на входе - сокет, буфер, размер буфера
 // на выходе - размер принятого сообщения или -1 в случае ошибки
-int CMicrocore::GetMsg(TCPsocket socket, char *buffer, int buf_size){
+int CMicrocore::GetMsg(TCPsocket socket, char *buffer, unsigned int buf_size){
 
     int len=SDLNet_TCP_Recv(socket,buffer,buf_size);
-    printf("%d GET--> %d", buf_size, len );
+    printf("%d GET--> %d\n", buf_size, len );
     if(!len) return (-1);
     return len;
 
@@ -132,27 +165,61 @@ int CMicrocore::GetMsg(TCPsocket socket, char *buffer, int buf_size){
 // *************** функция отправки сообщения в сокет ****************************
 // на входе - сокет, буфер, размер передаваемого сообщения
 // на выходе - размер переданного сообщения или -1 в случае ошибки
-int CMicrocore::PutMsg(TCPsocket socket, char *buffer, int buf_size){
+int CMicrocore::PutMsg(TCPsocket socket, char *buffer, unsigned int buf_size){
+
+    cout << "Put msg " << buf_size << endl;
 
     int len=SDLNet_TCP_Send(socket,buffer,buf_size);
-    printf("%d <--PUT %d", buf_size, len );
+    printf("%d <--PUT %d\n", buf_size, len );
     if(!len) return (-1);
     return len;
 
 };
 
+/*
+TCPsocket CMicrocore::Connect(const char* ServerName, int port){
+
+IPaddress _new_ip;
+
+	if(SDLNet_ResolveHost(&_new_ip,(char*)ServerName,port)==-1)
+	{
+		printf("SDLNet_ResolveHost: %s\n",SDLNet_GetError());
+		return NULL;
+	}
+
+TCPsocket _new_socket=SDLNet_TCP_Open(&_new_ip);
+
+	if(!_new_socket)
+	{
+		printf("SDLNet_TCP_Open: %s\n",SDLNet_GetError());
+		return NULL;
+	}
+return _new_socket;
+
+};
+*/
+
 int CMicrocore::Process(){
 
-char message[1024];
+//    cout << "CMicrocore process..." << endl;
+//    TLeaf* myLeaf = topLeaf;
+//    topLeaf = new TLeaf();
+//    curLeaf = topLeaf;
 
-TCPsocket new_socket;
-int numready;
-IPaddress *remoteip;
+//char message[1024];
 
-    numready = SDLNet_CheckSockets(set, 0/*(Uint32)-1*/);
+//TCPsocket new_socket;
+//int numready;
+//IPaddress *remoteip;
 
+//    set=SDLNet_AllocSocketSet(1);
+//    SDLNet_TCP_AddSocket(set,Listener.socket);
+
+    int numready = SDLNet_CheckSockets(set, 0/*(Uint32)-1*/);
+//    cout << numready << endl;
     if(!numready) return status;
 
+/*
     if (SDLNet_SocketReady(Listener.socket)){ // listener что-то уловил
 	new_socket = SDLNet_TCP_Accept(Listener.socket); // принимаем соединение от listener'а, получаем номер сокета, с которым будем работать дальше
 	numready--;
@@ -181,31 +248,63 @@ IPaddress *remoteip;
 
 	    } // if(new_socket)
     }
+*/
 
-    cout << "CMicrocore process..." << endl;
-    return status;
+    if (SDLNet_SocketReady(Listener.socket)){ // listener что-то уловил
+
+	    TCPsocket new_socket = SDLNet_TCP_Accept(Listener.socket);
+	    SDLNet_SocketSet set_s = SDLNet_AllocSocketSet(1);
+	    SDLNet_TCP_AddSocket(set_s, new_socket);
+
+//	    int numready = SDLNet_CheckSockets(set, 0/*(Uint32)-1*/);
+//    cout << numready << endl;
+//    if(!numready) return status;
+
+	    while( SDLNet_CheckSockets(set_s,0) ) {
+
+//	    cout << " .. true .. " << endl;
+	    ahn_command_head myComm;
+	    ahn_command_head* p_myComm = &myComm;
+//	    if (!SDLNet_SocketReady(new_socket)) {  SDLNet_TCP_Close( new_socket ); return 1; } // exit
+	    int len = GetMsg( new_socket, (char*)p_myComm, sizeof(ahn_command_head) ); // читаем сокет клиента
+	    if (len==-1) {  SDLNet_TCP_Close( new_socket ); return 1; } // exit
+//	    message[len]='\0';
+	    cout << "Length: " << len << endl;
+	    cout << "---- header ----" << endl;
+//	    ahn_command_head myComm = (ahn_command_head*) message;
+	    cout << "from: " << myComm.from << endl;
+	    cout << "to: " << myComm.to << endl;
+	    cout << "operation: " << myComm.operation << endl;
+	    cout << "size: " << myComm.size << endl;
+
+	    char* mess = new char[myComm.size];
+	    len = GetMsg( new_socket, mess, myComm.size ); // читаем сокет клиента
+	    ServiceList[myComm.to-1]->CallFunc( myComm, mess );
+	    delete []mess;
+
+	    }
+	    SDLNet_TCP_Close( new_socket ); return 1;
+
+    }
+
+//    cout << "CMicrocore process..." << endl;
+    return 1;
 
 }
-
-//IService* CMicrocore::getService( IServType servType ){
-//    if (ServiceList.find(servType)!=ServiceList.end() )
-//	return ServiceList[servType];
-//	return NULL;
-//};
 
 void CMicrocore::regService( IService* myService ){
 
 	std::string servName = myService->getName();
 	tServType servType = myService->getType();
 
-	ServiceList.push_back( (CService*)myService );
-	((CService*)myService)->setUID( ServiceList.size(), this );
+	ServiceList.push_back( myService );
+	myService->setUID( ServiceList.size(), this );
 
 if ( servType < tServLast )  // if service have a manager type
-	ServiceList_t[myService->getType()] = (CService*)myService;
+	ServiceList_t[myService->getType()] = myService;
 
 if ( servName !="-" ) // if service have a correct name
-	ServiceList_n[servName] = (CService*)myService;
+	ServiceList_n[servName] = myService;
 
 	cout << "[" << servName << "] registered " << endl;
 
@@ -216,10 +315,9 @@ void CMicrocore::unrService( UID servID ){
 
 	if ( !CheckID(servID) ) return;
 
-	CService* myService  = ServiceList[servID-1];
+	IService* myService  = ServiceList[servID-1];
 	std::string servName = myService->getName();
 	tServType servType   = myService->getType();
-
 
 if ( servType < tServLast )  // if service have a manager type
 	ServiceList_t.erase( ServiceList_t.find(servType) );
@@ -261,16 +359,42 @@ cout << "test id: " << testID << endl;
 
 };
 
-bool CMicrocore::SendCommand( ahn_command_head& head, void* data, int size ){
+bool CMicrocore::SendCommand( ahn_command_head& head, void* data ){
 
 	if ( !CheckID(head.from) ) return false;
 	if ( !CheckID(head.to) ) return false;
 
 cout << "CMicrocore::SendCommand" << endl;
 
-    return ServiceList[head.to-1]->CallFunc( head, data, size );
+//TCPSocket mySock = Connect("127.0.0.1", Listener.ip.port);
+
+    SDLNet_ResolveHost(&Sender.ip, "localhost", ext_port );
+    Sender.socket=SDLNet_TCP_Open(&Sender.ip);
+
+    if(!Sender.socket)
+    {
+	printf("fuu: %s\n",SDLNet_GetError());
+	status = 0;
+	return 0;
+    }
+
+cout <<  PutMsg(Sender.socket, (char*)&head, sizeof(ahn_command_head) ) << endl;
+
+cout <<  PutMsg(Sender.socket, (char*)data, head.size ) << endl;
+
+	SDLNet_TCP_Close(Sender.socket );
+
+//	curLeaf = curLeaf->AddLeaf( head, (const char*) data );
+
+//TLeaf* myLeaf = new TLeaf();
+//	if ( PoolList.find(head.to)==PoolList.end() ){
+//	    PoolList[head.to] = new TLeaf();
+//	};
 
 
+//	PoolList[head.to]->AddLeaf( head, (const char*) data );
+
+//    return ServiceList[head.to-1]->CallFunc( head, data );
 
     return true;
 

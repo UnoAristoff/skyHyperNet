@@ -4,9 +4,12 @@
 #include "ahn_servsnd.h"
 #include "SDL/SDL.h"
 
-using namespace std;
+#include "ahn_function.h"
 
-char buffer[ 80 ];
+using namespace std;
+IMicrocore* pCore;
+
+//char buffer[ 80 ];
 
 CServSnd::CServSnd(){
 
@@ -46,7 +49,7 @@ CServSnd::~CServSnd(){
 
 bool CServSnd::PlayFX( ahn_command_head& head, void* data ){
 
-    cout << "ServSnd PlayFX: " << (const char*) data << endl;
+//    cout << "ServSnd PlayFX: " << (const char*) data << endl;
     if (!SoundEnabled) return true;
 
 
@@ -63,7 +66,12 @@ bool CServSnd::PlayFX( ahn_command_head& head, void* data ){
 
 bool CServSnd::PlayMusic( ahn_command_head& head, void* data ){
 
-    cout << "ServSnd PlayMusic: " << (const char*) data << endl;
+//    pCore = myCore;
+    LogMsg("ServSnd PlayMusic '%s'", (const char*) data );
+
+//    cout << "ServSnd PlayMusic: " << (const char*) data << endl;
+    if (!SoundEnabled) return true;
+
     CurrentMusic = Mix_LoadMUS( (const char*) data );
     if (CurrentMusic) {
 		Mix_PlayMusic( CurrentMusic , -1);

@@ -13,13 +13,13 @@ class CServLog: public TService<CServLog> {
         tServType getType(){ return tServLog; }
         void Release(){ delete this; }
 
-	bool LogMsg( ahn_command_head& head, void* data, int size );
-	bool ErrMsg( ahn_command_head& head, void* data, int size );
+	bool LogMsg( ahn_command_head& head, void* data );
+	bool ErrMsg( ahn_command_head& head, void* data );
 
-        bool ServLogFunc1( ahn_command_head& head, void* data, int size );
-        bool ServLogFunc2( ahn_command_head& head, void* data, int size );
-        bool ServLogFunc3( ahn_command_head& head, void* data, int size );
-        bool ServLogFunc4( ahn_command_head& head, void* data, int size );
+//        bool ServLogFunc1( ahn_command_head& head, void* data, int size );
+//        bool ServLogFunc2( ahn_command_head& head, void* data, int size );
+//        bool ServLogFunc3( ahn_command_head& head, void* data, int size );
+//        bool ServLogFunc4( ahn_command_head& head, void* data, int size );
 
         CServLog();
         ~CServLog();

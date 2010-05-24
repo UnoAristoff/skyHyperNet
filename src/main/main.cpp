@@ -3,8 +3,7 @@
 using namespace std;
 
 #include "core_loader.h"
-
-IMicrocore* myCore;
+IMicrocore* pCore;
 
 extern IMicrocore* GetCore();
 
@@ -13,9 +12,9 @@ int main(int argc, char *argv[])
 
 //    printf("Hello world!\n");
 
-    myCore = GetCore();
+    pCore = GetCore();
 
-    if (!myCore) {
+    if (!pCore) {
 
 	cout << "can't init core. exit..." <<endl;
 	return 1;
@@ -25,12 +24,13 @@ int main(int argc, char *argv[])
 // cout << "yesss" << endl;
 // myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();    myCore = GetCore();
 
-    myCore->Start(false);
-
 //    UID myLog = myCore->GetUID("ServLog");
 //    cout << "myLog ID : " << myLog << endl;
 
+    pCore->Start(false);
+
     LogMsg("Hello from main prog!");
+    PlayMusic("10.mp3");
 
 //    ahn_command_head my_command;
 //    my_command.from = myLog;
@@ -51,6 +51,9 @@ int main(int argc, char *argv[])
     getchar();
     cout << "[OK]" << endl;
 
+    LogMsg("Bye1 from main prog!");
+    LogMsg("Bye2 from main prog!");
+    LogMsg("Bye3 from main prog!");
 
 //    myCore->Start(true); // loop
     FreeCore();

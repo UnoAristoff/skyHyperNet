@@ -3,8 +3,10 @@
 
 #include "ahn_servlog.h"
 
-using namespace std;
+#include "ahn_function.h"
 
+using namespace std;
+IMicrocore* pCore;
 char buffer[ 80 ];
 
 const char *get_date(){
@@ -23,11 +25,11 @@ CServLog::CServLog(){
 
     cout << "ServLog created.. " << endl;
 
-    INI_FUNC( FEndF );
-    REG_FUNC( FLogMsg, LogMsg );
-    REG_FUNC( FErrMsg, ErrMsg );
+    INI_FUNC( FServLogEndF );
+    REG_FUNC( CServLog, FLogMsg, LogMsg );
+    REG_FUNC( CServLog, FErrMsg, ErrMsg );
 
-    LogName = std::string(get_date())+".log";
+    LogName = std::string("log/")+std::string(get_date())+".log";
 
     log_file = fopen( LogName.c_str(),"a+b");
 
@@ -42,12 +44,14 @@ CServLog::~CServLog(){
 
 };
 
-bool CServLog::LogMsg( ahn_command_head& head, void* data, int size ){
+bool CServLog::LogMsg( ahn_command_head& head, void* data ){
 
     if ( !log_file ) return false;
 
+//    cout << (char*)data << endl;
+
     fputs( get_time(), log_file );
-    fputs(":", log_file);
+    fputs(": ", log_file);
 
     fputs( (const char*) data, log_file );
     fputs("\n", log_file );
@@ -57,11 +61,11 @@ bool CServLog::LogMsg( ahn_command_head& head, void* data, int size ){
     return true;
 };
 
-bool CServLog::ErrMsg( ahn_command_head& head, void* data, int size ){
+bool CServLog::ErrMsg( ahn_command_head& head, void* data ){
 
     if ( !log_file ) return false;
     fputs( get_time(), log_file );
-    fputs(":", log_file);
+    fputs(": ", log_file);
 
     fputs( (const char*) data, log_file );
     fputs("\n", log_file );
@@ -71,6 +75,7 @@ bool CServLog::ErrMsg( ahn_command_head& head, void* data, int size ){
     return true;
 };
 
+/*
 bool CServLog::ServLogFunc1( ahn_command_head& head, void* data, int size ){
     cout << "ServLog Func1.." << endl;
     return true;
@@ -90,6 +95,8 @@ bool CServLog::ServLogFunc4( ahn_command_head& head, void* data, int size ){
     cout << "ServLog Func4.." << endl;
     return true;
 };
+*/
+
 
 //bool CServLog::CallFunc( void* ptr, long size ){
 //

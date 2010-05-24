@@ -4,27 +4,27 @@
 #include "ahn_servsnd.h"
 #include <string>
 
-extern IMicrocore* myCore;
+extern IMicrocore* pCore;
 
 inline bool PlayFX( const char* fx_name ){
 
-    UID myLog = myCore->GetUID("ServSnd");
+    UID myLog = pCore->GetUID("ServSnd");
     if (!myLog) return false;
 
     ahn_command_head my_command;
     my_command.from = myLog;
     my_command.to = myLog;
     my_command.operation = FPlayFX;
-    my_command.size = strlen(fx_name+1);
+    my_command.size = strlen(fx_name)+1;
 
-    return myCore->SendCommand( my_command, (void*)fx_name );
+    return pCore->SendCommand( my_command, (void*)fx_name );
 
     };
 
 
 inline bool PlayMusic( const char* mus_name ){
 
-    UID myLog = myCore->GetUID("ServSnd");
+    UID myLog = pCore->GetUID("ServSnd");
     if (!myLog) return false;
 
     ahn_command_head my_command;
@@ -33,7 +33,7 @@ inline bool PlayMusic( const char* mus_name ){
     my_command.operation = FPlayMusic;
     my_command.size = strlen(mus_name)+1;
 
-    return myCore->SendCommand( my_command, (void*)mus_name );
+    return pCore->SendCommand( my_command, (void*)mus_name );
 
     };
 

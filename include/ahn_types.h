@@ -8,6 +8,7 @@ enum tServType {
 tServLog = 1,
 tServFile,
 tServScreen,
+tServSnd,
 
 tServLast,
 tServCustom
