@@ -11,6 +11,7 @@
 #include "SDL/SDL_thread.h"
 
 #include "IService.h"
+#include "MServer.h"
 //#include "TList.h"
 
 struct CNetworkListener{
@@ -20,7 +21,7 @@ struct CNetworkListener{
 
 //typedef TService<IService> CService; // pseudo-class :)
 
-class CMicrocore: public IMicrocore {
+class CMicrocore: public IMicrocore, public MServer {
     public:
 
     CMicrocore();
@@ -50,6 +51,8 @@ class CMicrocore: public IMicrocore {
     virtual ~CMicrocore();
     int GetMsg(TCPsocket socket, char *buffer, unsigned int buf_size);
     int PutMsg(TCPsocket socket, char *buffer, unsigned int buf_size);
+    bool HandleSocket( int num );
+
 //    TCPsocket Connect(const char* ServerName, Uint16 port);
 
     int status; // 1 - created, 2 - initialized, 0 - exit
@@ -58,8 +61,7 @@ class CMicrocore: public IMicrocore {
     CNetworkListener Listener;
     CNetworkListener Sender;
 //    TCPsocket accept_s;
-
-    SDLNet_SocketSet set;
+//    SDLNet_SocketSet set;
 
     std::vector< IService* > ServiceList;          // for UID
     std::map<tServType, IService* > ServiceList_t; // for types

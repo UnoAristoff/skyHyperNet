@@ -39,9 +39,9 @@ IMicrocore* GetCore(){
 if (_myCore) return _myCore;
 
 #ifndef _WIN32
-const char *ModuleName="./lib_ahnMicrocore.so";
+const char *ModuleName="./services/lib_ahnMicrocore.so";
 #else
-const char *ModuleName="./ahnMicrocore.dll";
+const char *ModuleName="./services/ahnMicrocore.dll";
 #endif
 
 #ifndef _WIN32

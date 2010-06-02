@@ -7,11 +7,19 @@ typedef unsigned short Uint16;
 enum tServType {
 tServLog = 1,
 tServFile,
-tServScreen,
+tServGra,
 tServSnd,
 
 tServLast,
 tServCustom
+};
+
+
+///// GEOMETRIC
+
+struct rect_dat{
+    unsigned int width;
+    unsigned int height;
 };
 
 #endif

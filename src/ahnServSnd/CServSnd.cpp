@@ -50,14 +50,20 @@ CServSnd::~CServSnd(){
 bool CServSnd::PlayFX( ahn_command_head& head, void* data ){
 
 //    cout << "ServSnd PlayFX: " << (const char*) data << endl;
+    LogMsg("ServSnd PlayFX '%s'", (const char*) data );
     if (!SoundEnabled) return true;
 
+//    CurrentMusic = Mix_LoadMUS( (const char*) data );
+//    if (CurrentMusic) {
+//		Mix_PlayMusic( CurrentMusic , -1);
+//		return true;
+//		}
 
-    CurrentMusic = Mix_LoadMUS( (const char*) data );
-    if (CurrentMusic) {
-		Mix_PlayMusic( CurrentMusic , -1);
-		return true;
-		}
+	Mix_Chunk *tmp = Mix_LoadWAV( (const char*) data );
+	if (tmp) {
+		Mix_PlayChannel(-1, tmp, 0);
+		return false;
+		  };
 
     cout << "Couldn't play " << (const char*) data << " : " << SDL_GetError() << endl;
 	return false; //че-то не сработало :(

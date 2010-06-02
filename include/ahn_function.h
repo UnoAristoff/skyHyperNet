@@ -3,5 +3,6 @@
 
 #include "f_servlog.h"
 #include "f_servsnd.h"
+#include "f_servgraf.h"
 
 #endif

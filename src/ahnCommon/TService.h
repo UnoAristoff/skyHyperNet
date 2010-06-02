@@ -20,7 +20,7 @@ typedef bool (T::*CALLFUNC)( ahn_command_head& head, void* data );
 
     virtual ~TService(){
 
-    delete []func_list;
+    if (num_func>0) delete []func_list;
 
         }
 

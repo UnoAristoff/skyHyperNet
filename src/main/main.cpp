@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     pCore->Start(false);
 
     LogMsg("Hello from main prog!");
-    PlayMusic("10.mp3");
+    PlayFX("Shot.wav");
 
 //    ahn_command_head my_command;
 //    my_command.from = myLog;
@@ -51,9 +51,9 @@ int main(int argc, char *argv[])
     getchar();
     cout << "[OK]" << endl;
 
-    LogMsg("Bye1 from main prog!");
-    LogMsg("Bye2 from main prog!");
-    LogMsg("Bye3 from main prog!");
+//    LogMsg("Bye1 from main prog!");
+//    LogMsg("Bye2 from main prog!");
+//    LogMsg("Bye3 from main prog!");
 
 //    myCore->Start(true); // loop
     FreeCore();

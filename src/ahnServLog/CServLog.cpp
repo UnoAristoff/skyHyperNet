@@ -59,6 +59,7 @@ bool CServLog::LogMsg( ahn_command_head& head, void* data ){
     fflush( log_file );
 
     return true;
+
 };
 
 bool CServLog::ErrMsg( ahn_command_head& head, void* data ){
