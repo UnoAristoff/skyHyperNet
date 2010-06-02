@@ -1,0 +1,12 @@
+PROJECT (AmberHyperNet)
+
+SET(EXECUTABLE_OUTPUT_PATH "../../bin" )
+SET(LIBRARY_OUTPUT_PATH "../../bin/services" )
+
+AUX_SOURCE_DIRECTORY (./ MAIN_DIR )
+AUX_SOURCE_DIRECTORY ( ../ahnCommon COMM_DIR )
+
+INCLUDE_DIRECTORIES( ../../include )
+INCLUDE_DIRECTORIES( ../ahnCommon )
+
+ADD_LIBRARY (_ahnServFile SHARED ${MAIN_DIR} ${COMM_DIR} )
