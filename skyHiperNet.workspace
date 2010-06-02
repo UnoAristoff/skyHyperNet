@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="ahnMicrocore.cbp" active="1" />
+		<Project filename="ahnMicrocore.cbp" />
 		<Project filename="anhServLog.cbp" />
 		<Project filename="anhServSnd.cbp" />
-		<Project filename="HyperNet.cbp" />
 		<Project filename="anhServGra.cbp" />
+		<Project filename="anhServFile.cbp" />
+		<Project filename="HyperNet.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>
