@@ -2,7 +2,7 @@
 #define f_servsnd_h
 
 #include "ahn_servsnd.h"
-#include <string>
+#include <string.h>
 
 extern IMicrocore* pCore;
 

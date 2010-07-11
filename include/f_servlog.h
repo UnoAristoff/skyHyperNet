@@ -2,7 +2,7 @@
 #define f_servlog_h
 
 #include "ahn_servlog.h"
-#include <string>
+#include <string.h>
 
 #include <stdarg.h>
 

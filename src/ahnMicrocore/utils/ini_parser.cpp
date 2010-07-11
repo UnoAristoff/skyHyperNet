@@ -9,7 +9,7 @@
 
 #include "ini_parser.h"
 
-#include <string>
+#include <string.h>
 #include <map>
 
 #include <stdio.h>
